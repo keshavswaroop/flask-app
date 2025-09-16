@@ -1,0 +1,76 @@
+---
+- name: Setup Flask Application On EC2
+  hosts: all
+  become: true
+  tasks:
+    - name: Updating apt packages
+      apt:
+        update_cache: true
+
+    - name: Installing required packages
+      apt:
+        pkg:
+          - python3
+          - python3-pip
+          - python3-venv
+          - git
+        state: present
+
+    - name: Clone the git Repo
+      git:
+        repo: "https://github.com/keshavswaroop/flask-monolith-starter-kit.git"
+        dest: /home/ubuntu/flask-app
+        version: master
+
+    # - name: Change the directory
+    #   shell: |
+    #     cd /home/flask-application/flask-monolith-starter-kit
+    - name: Create Virtual Environment
+      command: python3 -m venv /home/ubuntu/flask-app/venv
+      args:
+        chdir: /home/ubuntu/flask-app
+      # shell: |
+      #   python3 -m venv venv
+      #   source venv/bin/activate
+
+    - name: Install Requirements
+      pip:
+        requirements: /home/ubuntu/flask-app/requirements.txt
+        virtualenv: /home/ubuntu/flask-app/venv
+        virtualenv_python: python3
+
+    - name: Configure environment
+      copy:
+        src: /home/ubuntu/flask-app/.env.example
+        dest: /home/ubuntu/flask-app/.env
+        remote_src: yes
+
+    # - name: Run the application
+    #   shell: |
+    #     python app.py --host=0.0.0.0 --port=5000
+    - name: Create systemd service for Flask app
+      copy:
+        dest: /etc/systemd/system/flask-app.service
+        content: |
+          [Unit]
+          Description=Flask Monolith
+          After=network.target
+
+          [Service]
+          User=ubuntu
+          WorkingDirectory=/home/ubuntu/flask-app
+          Environment="PATH=/home/ubuntu/flask-app/venv/bin"
+          ExecStart=/home/ubuntu/flask-app/venv/bin/python app.py --host=0.0.0.0 --port=5000
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+
+    - name: Reload systemd
+      command: systemctl daemon-reload
+
+    - name: Enable and start flask-app
+      systemd:
+        name: flask-app
+        state: started
+        enabled: yes
