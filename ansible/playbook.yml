@@ -19,30 +19,30 @@
     - name: Clone the git Repo
       git:
         repo: "https://github.com/keshavswaroop/flask-app.git"
-        dest: /home/ubuntu
+        dest: /home/ubuntu/flask
         version: master
 
     # - name: Change the directory
     #   shell: |
     #     cd /home/flask-application/flask-monolith-starter-kit
     - name: Create Virtual Environment
-      command: python3 -m venv /home/ubuntu/flask-app/flask-monolith-starter-kit/venv
+      command: python3 -m venv /home/ubuntu/flask/flask-app/flask-monolith-starter-kit/venv
       args:
-        chdir: /home/ubuntu/flask-app/flask-monolith-starter-kit/
+        chdir: /home/ubuntu/flask/flask-app/flask-monolith-starter-kit/
       # shell: |
       #   python3 -m venv venv
       #   source venv/bin/activate
 
     - name: Install Requirements
       pip:
-        requirements: /home/ubuntu/flask-app/flask-monolith-starter-kit/requirements.txt
-        virtualenv: /home/ubuntu/flask-app/flask-monolith-starter-kit/venv
+        requirements: /home/ubuntu/flask/flask-app/flask-monolith-starter-kit/requirements.txt
+        virtualenv: /home/ubuntu/flask/flask-app/flask-monolith-starter-kit/venv
         virtualenv_python: python3
 
     - name: Configure environment
       copy:
-        src: /home/ubuntu/flask-app/flask-monolith-starter-kit/.env.example
-        dest: /home/ubuntu/flask-app/flask-monolith-starter-kit/.env
+        src: /home/ubuntu/flask/flask-app/flask-monolith-starter-kit/.env.example
+        dest: /home/ubuntu/flask/flask-app/flask-monolith-starter-kit/.env
         remote_src: yes
 
     # - name: Run the application
@@ -58,9 +58,9 @@
 
           [Service]
           User=ubuntu
-          WorkingDirectory=/home/ubuntu/flask-app/flask-monolith-starter-kit/
-          Environment="PATH=/home/ubuntu/flask-app/flask-monolith-starter-kit/venv/bin"
-          ExecStart=/home/ubuntu/flask-app/flask-monolith-starter-kit/venv/bin/python app.py --host=0.0.0.0 --port=5000
+          WorkingDirectory=/home/ubuntu/flask/flask-app/flask-monolith-starter-kit/
+          Environment="PATH=/home/ubuntu/flask/flask-app/flask-monolith-starter-kit/venv/bin"
+          ExecStart=/home/ubuntu/flask/flask-app/flask-monolith-starter-kit/venv/bin/python app.py --host=0.0.0.0 --port=5000
           Restart=always
 
           [Install]
