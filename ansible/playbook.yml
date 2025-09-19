@@ -58,9 +58,9 @@
 
           [Service]
           User=ubuntu
-          WorkingDirectory=/home/ubuntu/flask-app
-          Environment="PATH=/home/ubuntu/flask-app/venv/bin"
-          ExecStart=/home/ubuntu/flask-app/venv/bin/python app.py --host=0.0.0.0 --port=5000
+          WorkingDirectory=/home/ubuntu/flask-app/flask-monolith-starter-kit
+          Environment="PATH=/home/ubuntu/flask-app/flask-monolith-starter-kit/venv/bin"
+          ExecStart=/home/ubuntu/flask-app/flask-monolith-starter-kit/venv/bin/python app.py --host=0.0.0.0 --port=5000
           Restart=always
 
           [Install]
