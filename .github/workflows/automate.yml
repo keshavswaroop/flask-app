@@ -20,6 +20,7 @@ jobs:
         run: |
           cd terraform
           terraform init
+          ls
 
       - name: Terraform Validate
         run: |
