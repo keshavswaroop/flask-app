@@ -1,6 +1,6 @@
 resource "aws_key_pair" "flask_key" {
   key_name   = var.key_name
-  public_key = file("D:\\Flask-Terraform+Ansible\\flask-keygen.pub")
+  public_key = file("../flask-keygen.pub")
 }
 
 resource "aws_default_vpc" "aws_vpc" {
@@ -9,7 +9,7 @@ resource "aws_default_vpc" "aws_vpc" {
   }
 }
 
-resource "aws_default_security_group" "flask_sg" {
+resource "aws_security_group" "flask_sg" {
   vpc_id = aws_default_vpc.aws_vpc.id
 
   ingress {
@@ -52,7 +52,7 @@ resource "aws_instance" "flask" {
   ami           = var.ami_id
   instance_type = "t3.micro"
   key_name = aws_key_pair.flask_key.key_name
-  security_groups = [ aws_default_security_group.flask_sg.name ]
+  security_groups = [ aws_security_group.flask_sg.name ]
 
   root_block_device {
     volume_size = var.volume_size

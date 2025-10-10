@@ -1,13 +1,13 @@
 variable "key_name" {
   type = string
   description = "Key Name"
-  # default = "flask-key"
+  default = "flask-key"
 }
 
 variable "default_vpc_name" {
   type = string
   description = "Default VPC"
-  # default = "flask-vpc"
+  default = "flask-vpc"
 }
 
 variable "ami_id" {
@@ -25,7 +25,7 @@ variable "instance_type" {
 variable "instance_name" {
   type = string
   description = "Instance Name"
-  # default = "flask_instance"
+  default = "flask_instance"
 }
 
 variable "volume_size" {
@@ -43,5 +43,5 @@ variable "volume_type" {
 variable "security_group_name" {
   type = string
   description = "Security Group Name"
-  # default = "flask_sg"
+  default = "flask_sg"
 }
