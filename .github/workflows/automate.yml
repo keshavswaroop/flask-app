@@ -22,7 +22,9 @@ jobs:
           terraform init
 
       - name: Terraform Validate
-        run: terraform validate
+        run: |
+          terraform validate
+          ls
 
       - name: Terraform Plan
         run: terraform plan
