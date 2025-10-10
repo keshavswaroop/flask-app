@@ -20,24 +20,27 @@ jobs:
         run: |
           cd terraform
           terraform init
-          ls
 
       - name: Terraform Validate
         run: |
+          cd terraform
           terraform validate
-          ls
 
       - name: Terraform Plan
-        run: terraform plan
+        run: |
+          cd terraform
+          terraform plan
 
       - name: Terraform start
-        run: terraform apply --auto-approve
+        run: |
+          cd terraform
+          terraform apply --auto-approve
 
       - name: Upload playbook.yml
         uses: actions/upload-artifact@v4
         with:
           name: inventory.ini
-          path: ../ansible/inventory.ini
+          path: ansible/inventory.ini
 
       # - name: Terraform destroy
       #   run: terraform destroy
